@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 
+import fetch from 'node-fetch'
 import moment from 'moment'
 // import { PureSnippet } from '../models/home-model.js'
 // import { UserInfo } from '../models/user-model.js'
@@ -23,9 +24,53 @@ export class IssueController {
   async index (req, res, next) {
     console.log('INDEX')
 
-    // Få in issues här
 
-    
+
+    try {
+      let gitIssues = await fetch('https://gitlab.lnu.se/api/v4/projects/12695/issues', {
+        method: 'GET',
+        contentType: 'application/json',
+        headers: {
+          Authorization: 'Bearer NT7jtyFyseCotkQDY-vX'
+        }
+      })
+      gitIssues = await gitIssues.json()
+
+      console.log(gitIssues)
+
+      const viewData = {
+        issues: gitIssues.map(issue => ({
+          title: issue.title,
+          description: issue.description,
+          avatar: issue.author.avatar_url,
+          id: issue.id,
+          state: issue.state === 'opened'
+        }))
+      }
+
+
+      res.render('issues/index', { viewData })
+    } catch (error) {
+      next(error)
+    }
+
+    // const data = {
+    //   gitIssues: await gitIssues
+    //     .map(gitIssues => ({
+    //       id: gitIssues.id,
+    //       title: gitIssues.title,
+    //       text: gitIssues.description,
+    //       avatar: gitIssues.author.avatar_url
+    //     }))
+    // }
+
+    // const gitData = {
+    //   gitIssues
+
+    // }
+
+    // gör en data här
+
     // try {
     //   const viewData = {
     //     loggedIn: req.session.loggedin,
@@ -42,7 +87,7 @@ export class IssueController {
     //       .sort((a, b) => a.value - b.value)
     //   }
     //   console.log(viewData)
-    res.render('issues/index')
+
     // } catch (error) {
     //   next(error)
     // }
