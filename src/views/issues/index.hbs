@@ -1,3 +1,53 @@
 <h1>
   <span class="fas fa-th"></span> Issues
 </h1>
+
+<div id="issue-list">
+{{#if viewData.issues.length }}
+    {{#each viewData.issues}}
+    {{#if this.state}}
+    <div class="containerlamp">
+      <div class="led-box">
+        <div class="led-green"></div>
+  </div>
+  {{else}}
+      <div class="containerlamp">
+      <div class="led-box">
+        <div class="led-red"></div>
+  </div>
+  {{/if}}
+
+      <div class="issue-box">
+        <div class="issuecontent">
+        <button name="value" value="{{this.id}}" type="submit" class="btn btn-outline-danger">close issue</button>
+          <img src={{this.avatar}} />
+          <p class="issue-id">Issue id: {{this.id}}</p>
+          <p class="issue-title">{{this.title}}</p>
+          <p class="issue-text">{{this.description}}</p>
+        </div>
+        </div>
+    {{/each}}
+{{/if}}
+</div>
+
+
+<template id="git-template">
+          {{#if this.state}}
+            <div class="containerlamp">
+              <div class="led-box">
+                <div class="led-green"></div>
+          </div>
+          {{else}}
+              <div class="containerlamp">
+              <div class="led-box">
+                <div class="led-red"></div>
+          </div>
+          {{/if}}
+          <div class="issuecontent">
+          <button name="value" value="{{this.id}}" type="submit" class="btn btn-outline-danger">close issue</button>
+          <img src=\{{this.avatar}} />
+          <p class="issue-id">Issue id: \{{this.id}}</p>
+          <p class="issue-title">\{{this.title}}</p>
+          <p class="issue-text">\{{this.description}}</p>
+          </div>
+</template>
