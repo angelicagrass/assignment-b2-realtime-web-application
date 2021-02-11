@@ -37,8 +37,6 @@ export class IssueController {
       })
       gitIssues = await gitIssues.json()
 
-
-
       const viewData = {
         issues: gitIssues.map(issue => ({
           title: issue.title,
@@ -51,7 +49,6 @@ export class IssueController {
         }))
           .sort((a, b) => b.updated - a.updated)
           .sort((a, b) => b.state - a.state)
-
       }
 
       res.render('issues/index', { viewData })
@@ -62,12 +59,6 @@ export class IssueController {
 
   async remove (req, res, next) {
     console.log('REMOVE-----------------------------------------')
-    console.log(`${process.env.GIT_PROJECT + req.body.value}?state_event=close`)
-
-    // console.log(process.env.GIT_PROJECT)
-
-    // console.log('BODY OVANFÖR')
-    // console.log(req.body.value)
 
     try {
       await fetch(`${process.env.GIT_PROJECT + req.body.value}?state_event=close`, {
@@ -76,7 +67,8 @@ export class IssueController {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
-      res.redirect('.')
+      // res.redirect('.')
+      res.redirect('/')
     } catch (error) {
       next(error)
     }

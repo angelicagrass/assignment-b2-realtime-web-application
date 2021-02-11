@@ -17,26 +17,36 @@ export class HookController {
    * @param {Function} next - Express next middleware function.
    */
   index (req, res, next) {
-    console.log('HOOK INDEX')
-    console.log(req.body)
+    console.log('HOOK INDEX-------------------')
+
     req.body = {
       description: req.body.object_attributes.description,
       title: req.body.object_attributes.title,
       id: req.body.object_attributes.id,
       avatar: req.body.user.avatar_url,
       state: req.body.object_attributes.state
+      // iid: req.body.object_attributes.iid
     }
+
+    console.log(req.body)
     next()
   }
 
+  /**
+   * Recieves a Webhook, validates it and sends it to Tasks Create Controller.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async updateIssue (req, res, next) {
-    console.log('UPDATEISSUE')
     try {
       res.io.emit('issue', {
         title: req.body.title,
         description: req.body.description,
         avatar: req.body.avatar,
-        id: req.body.id
+        id: req.body.id,
+        // state: req.body.state
       })
 
       if (req.headers['x-gitlab-event']) {

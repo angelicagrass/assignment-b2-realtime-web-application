@@ -13,6 +13,10 @@ import logger from 'morgan'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
+
+// Socket.io support
+import http from 'http'
+import { Server } from 'socket.io'
 // import { connectDB } from './config/mongoose.js'
 
 /**
@@ -23,6 +27,9 @@ const main = async () => {
 
   // Creates an Express application.
   const app = express()
+
+  // Parse json
+  app.use(express.json())
 
   // Get the directory name of this module's path. Get the absolut path
   const directoryFullName = dirname(fileURLToPath(import.meta.url))
@@ -35,13 +42,18 @@ const main = async () => {
     helmet.contentSecurityPolicy({
       directives: { // to accept bootstrap
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net']
+        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', "'unsafe-eval'"],
+        'img-src': ["'self'", '*.gravatar.com']
       }
     })
   )
 
+  // app.use(express.static('images'))
+
   // Set up a morgan logger using the dev format for log entries.
   app.use(logger('dev'))
+
+
 
   // View engine setup.
   app.engine('hbs', hbs.express4({
@@ -54,6 +66,8 @@ const main = async () => {
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }))
+
+  // app.use(express.static('views/images'))
 
   // Serve static files.
   app.use(express.static(join(directoryFullName, '..', 'public')))
@@ -78,6 +92,20 @@ const main = async () => {
 
   app.use(session(sessionOptions))
 
+  // Socket.io: Add to Express project.
+
+  const server = http.createServer(app)
+  const io = new Server(server)
+
+  // Just to see connections under dev.
+  io.on('connection', (socket) => {
+    console.log('a user connected')
+
+    socket.on('disconnect', () => {
+      console.log('user disconnected')
+    })
+  })
+
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
     // Flash messages - survives only a round trip.
@@ -86,6 +114,9 @@ const main = async () => {
       delete req.session.flash
     }
     res.locals.baseURL = baseURL
+
+    // Socket.io: Add Socket.io to the Response-object to make it available in controllers.
+    res.io = io
 
     next()
   })
@@ -119,7 +150,7 @@ const main = async () => {
   })
 
   // Starts the HTTP server listening for connections.
-  app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`)
     console.log('Press Ctrl-C to terminate...')
   })

@@ -8,6 +8,8 @@ const controller = new IssueController() // Controller for puresnippet that hold
 // Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
 
+router.post('/remove', controller.remove)
+
 // router.get('/new', controller.new)
 // router.get('/user', controller.user)
 // router.get('/logout', controller.logout)
