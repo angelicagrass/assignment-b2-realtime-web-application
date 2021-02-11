@@ -6,6 +6,7 @@
  */
 
 import fetch from 'node-fetch'
+// import express from 'express'
 import moment from 'moment'
 // import { PureSnippet } from '../models/home-model.js'
 // import { UserInfo } from '../models/user-model.js'
@@ -23,20 +24,20 @@ export class IssueController {
    */
   async index (req, res, next) {
     console.log('INDEX')
-
-
+    console.log(process.env.BEARER_TOKEN)
+    console.log(process.env.GIT_PROJECT)
 
     try {
       let gitIssues = await fetch('https://gitlab.lnu.se/api/v4/projects/12695/issues', {
         method: 'GET',
         contentType: 'application/json',
         headers: {
-          Authorization: 'Bearer NT7jtyFyseCotkQDY-vX'
+          Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
       gitIssues = await gitIssues.json()
 
-      console.log(gitIssues)
+
 
       const viewData = {
         issues: gitIssues.map(issue => ({
@@ -44,52 +45,40 @@ export class IssueController {
           description: issue.description,
           avatar: issue.author.avatar_url,
           id: issue.id,
+          iid: issue.iid,
+          updated: moment(issue.updated_at),
           state: issue.state === 'opened'
         }))
-      }
+          .sort((a, b) => b.updated - a.updated)
+          .sort((a, b) => b.state - a.state)
 
+      }
 
       res.render('issues/index', { viewData })
     } catch (error) {
       next(error)
     }
+  }
 
-    // const data = {
-    //   gitIssues: await gitIssues
-    //     .map(gitIssues => ({
-    //       id: gitIssues.id,
-    //       title: gitIssues.title,
-    //       text: gitIssues.description,
-    //       avatar: gitIssues.author.avatar_url
-    //     }))
-    // }
+  async remove (req, res, next) {
+    console.log('REMOVE-----------------------------------------')
+    console.log(`${process.env.GIT_PROJECT + req.body.value}?state_event=close`)
 
-    // const gitData = {
-    //   gitIssues
+    // console.log(process.env.GIT_PROJECT)
 
-    // }
+    // console.log('BODY OVANFÖR')
+    // console.log(req.body.value)
 
-    // gör en data här
-
-    // try {
-    //   const viewData = {
-    //     loggedIn: req.session.loggedin,
-    //     pureSnippet: (await PureSnippet.find({}))
-    //       .map(pureSnippet => ({
-    //         id: pureSnippet._id, // Id to identify the snippet at server.
-    //         createdAt: moment(pureSnippet.createdAt).fromNow(), // Time when created.
-    //         value: pureSnippet.value,
-    //         user: pureSnippet.user,
-    //         checkuser: req.session.name === pureSnippet.user, // checks if session name is equal to owner of snippet.
-    //         editSnippet: req.session.editSnippet === pureSnippet.id, // checks if edit snippet is equal to id of pure snippet.
-    //         text: pureSnippet.text
-    //       }))
-    //       .sort((a, b) => a.value - b.value)
-    //   }
-    //   console.log(viewData)
-
-    // } catch (error) {
-    //   next(error)
-    // }
+    try {
+      await fetch(`${process.env.GIT_PROJECT + req.body.value}?state_event=close`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${process.env.BEARER_TOKEN}`
+        }
+      })
+      res.redirect('.')
+    } catch (error) {
+      next(error)
+    }
   }
 }
