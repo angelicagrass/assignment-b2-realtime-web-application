@@ -24,7 +24,8 @@ export class HookController {
       title: req.body.object_attributes.title,
       id: req.body.object_attributes.id,
       avatar: req.body.user.avatar_url,
-      state: req.body.object_attributes.state
+      state: req.body.object_attributes.state,
+      action: req.body.action
       // iid: req.body.object_attributes.iid
     }
 
@@ -46,8 +47,12 @@ export class HookController {
         description: req.body.description,
         avatar: req.body.avatar,
         id: req.body.id,
+        action: req.body.action
         // state: req.body.state
       })
+
+
+      console.log(req.body.action)
 
       if (req.headers['x-gitlab-event']) {
         res.status(200).send('Hook accepted')
