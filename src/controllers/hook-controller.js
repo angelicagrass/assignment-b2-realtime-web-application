@@ -25,7 +25,7 @@ export class HookController {
       id: req.body.object_attributes.id,
       avatar: req.body.user.avatar_url,
       state: req.body.object_attributes.state,
-      action: req.body.action
+      action: req.body.object_attributes.action
       // iid: req.body.object_attributes.iid
     }
 

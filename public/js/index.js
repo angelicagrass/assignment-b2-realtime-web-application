@@ -16,7 +16,15 @@ if (gitTemplate) {
   // Listen for message "new task" from the server
   socket.on('issue', arg => {
     console.log('SOCKETON--------------------')
-    console.log(arg)
+    console.log(arg.action)
+    console.log(arg.id)
+
+    if (arg.action !== 'open') {
+      const findIssue = document.getElementById(`issue${arg.id}`)
+      console.log(findIssue)
+      findIssue.remove()
+    }
+
     const taskString = hbsTemplate(arg)
     const div = document.createElement('div')
     div.classList = 'issue-box'
