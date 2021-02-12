@@ -39,28 +39,31 @@
 </div>
 
 <template id="git-template">
-  <div id="issue{{this.id}}">
-          {{#if this.state}}
+  
+<div id="issue-list">
+  <div id="issue\{{this.id}}">
+          \{{#if this.state}}
             <div class="containerlamp">
               <div class="led-box">
                 <div class="led-green"></div>
             </div>
-          {{else}}
+          \{{else}}
               <div class="containerlamp">
                 <div class="led-box">
                   <div class="led-red"></div>
           </div>
-          {{/if}}
+          \{{/if}}
           <div class="issuecontent">
-            {{#if this.state}}
+            \{{#if this.state}}
               <form action="./remove" method="post">
-                <button name="value" value="{{this.iid}}" type="submit" class="btn btn-outline-danger">close issue</button>
+                <button name="value" value="\{{this.iid}}" type="submit" class="btn btn-outline-danger">close issue</button>
               </form>
-            {{/if}}
+            \{{/if}}
             <img src=\{{this.avatar}} />
               <p class="issue-id">Issue id: \{{this.id}}</p>
               <p class="issue-title">\{{this.title}}</p>
               <p class="issue-text">\{{this.description}}</p>
+          </div>
           </div>
           </div>
 </template>

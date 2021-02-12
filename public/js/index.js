@@ -18,6 +18,11 @@ if (gitTemplate) {
     console.log('SOCKETON--------------------')
     console.log(arg.action)
     console.log(arg.id)
+    console.log(arg.state)
+
+    // if (arg.state === 'open') {
+    //   arg.state = true
+    // }
 
     if (arg.action !== 'open') {
       const findIssue = document.getElementById(`issue${arg.id}`)
@@ -31,6 +36,6 @@ if (gitTemplate) {
     div.innerHTML = taskString
 
     const taskList = document.querySelector('#issue-list')
-    taskList.appendChild(div)
+    taskList.insertBefore(div, taskList.firstChild)
   })
 }
