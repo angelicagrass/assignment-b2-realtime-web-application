@@ -5,13 +5,15 @@
 <div id="issue-list">
 {{#if viewData.issues.length }}
     {{#each viewData.issues}}
-    <div id="issue{{this.id}}">
+    
     {{#if this.state}}
+    <div id="issue{{this.id}}">
     <div class="containerlamp">
       <div class="led-box">
         <div class="led-green"></div>
   </div>
   {{else}}
+  <div id="issue{{this.id}}">
       <div class="containerlamp">
       <div class="led-box">
         <div class="led-red"></div>
@@ -30,7 +32,8 @@
             <p class="issue-text">{{this.description}}</p>
           </div>
         </div>
-        </div>
+       </div>
+      </div>
     {{/each}}
 {{/if}}
 </div>
