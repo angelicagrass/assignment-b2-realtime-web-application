@@ -22,7 +22,7 @@ export class IssueController {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-  async index (req, res, next) {
+  async index(req, res, next) {
     console.log('INDEX')
     console.log(process.env.BEARER_TOKEN)
     console.log(process.env.GIT_PROJECT)
@@ -37,16 +37,20 @@ export class IssueController {
       })
       gitIssues = await gitIssues.json()
 
+      console.log(gitIssues)
+
       const viewData = {
-        issues: gitIssues.map(issue => ({
-          title: issue.title,
-          description: issue.description,
-          avatar: issue.author.avatar_url,
-          id: issue.id,
-          iid: issue.iid,
-          updated: moment(issue.updated_at),
-          state: issue.state === 'opened'
-        }))
+        issues: gitIssues
+          .filter(issue => (issue.title !== 'REMOVE'))
+          .map(issue => ({
+            title: issue.title,
+            description: issue.description,
+            avatar: issue.author.avatar_url,
+            id: issue.id,
+            iid: issue.iid,
+            updated: moment(issue.updated_at),
+            state: issue.state === 'opened'
+          }))
           .sort((a, b) => b.updated - a.updated)
           .sort((a, b) => b.state - a.state)
       }
@@ -57,7 +61,7 @@ export class IssueController {
     }
   }
 
-  async remove (req, res, next) {
+  async remove(req, res, next) {
     console.log('REMOVE-----------------------------------------')
 
     try {
@@ -72,5 +76,14 @@ export class IssueController {
     } catch (error) {
       next(error)
     }
+  }
+
+
+  async comment(req, res, next) {
+    console.log('COMMENT--------------------')
+
+  
+
+
   }
 }

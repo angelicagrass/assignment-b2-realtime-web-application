@@ -10,6 +10,8 @@ router.get('/', controller.index)
 
 router.post('/remove', controller.remove)
 
+router.post('/comment', controller.comment)
+
 // router.get('/new', controller.new)
 // router.get('/user', controller.user)
 // router.get('/logout', controller.logout)
