@@ -1,7 +1,7 @@
 /**
- * Module for the TasksController.
+ * Module for the IssueController.
  *
- * @author Johan Leitet
+ * @author Angelica Grass
  * @version 1.0.0
  */
 
@@ -17,8 +17,6 @@ export class HookController {
    * @param {Function} next - Express next middleware function.
    */
   index (req, res, next) {
-    console.log('HOOK INDEX-------------------')
-
     req.body = {
       description: req.body.object_attributes.description,
       title: req.body.object_attributes.title,
@@ -26,7 +24,6 @@ export class HookController {
       avatar: req.body.user.avatar_url,
       state: req.body.object_attributes.state === 'opened',
       action: req.body.object_attributes.action
-      // iid: req.body.object_attributes.iid
     }
 
     next()
@@ -50,7 +47,6 @@ export class HookController {
         state: req.body.state
       })
 
-
       if (req.headers['x-gitlab-event']) {
         res.status(200).send('Hook accepted')
         return
@@ -68,7 +64,6 @@ export class HookController {
    * @param {Function} next - Express next middleware function.
    */
   authorize (req, res, next) {
-
     // Validate the Gitlab Secret Token to be sure that the hook is from the correct sender.
     // This need to be in a database if we have multiple users.
     if (req.headers['x-gitlab-token'] !== process.env.HOOK_SECRET) {

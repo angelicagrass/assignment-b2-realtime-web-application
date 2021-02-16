@@ -39,8 +39,6 @@
           </form>
           </div>
         {{/if}}
-
-
           </div>
         </div>
        </div>
@@ -48,7 +46,6 @@
     {{/each}}
 {{/if}}
 </div>
-
 <template id="git-template"> 
   <div id="issue-list">
     <div id="issue\{{this.id}}">
@@ -74,13 +71,14 @@
                 <p class="issue-title">\{{this.title}}</p>
                 <p class="issue-text">\{{this.description}}</p>
 
-              \{{#if this.state}}
+             \{{#if this.state}}
+              <div class="comment-container">
                 <form action="./comment" method="post">
-                  {{!-- <textarea rows="2" type="text" class="form-control" name="value" value="{{value}}" placeholder="Comment" required="required" autofocus="autofocus"></textarea> --}}
-                  <button type="submit" name="value" value="\{{this.iid}}" class="btn btn-lg btn-info">Create</button>
+                  <textarea rows="2" type="text" class="form-control" name="text" text="\{{value}}" placeholder="Comment" required="required" autofocus="autofocus"></textarea>
+                  <button type="submit" name="value" value="\{{this.iid}}" text="\{{value}}" class="comment-btn fas fa-paper-plane"></button>
                 </form>
+                </div>
               \{{/if}}
-
             </div>
           </div>
       </div>

@@ -15,15 +15,6 @@ if (gitTemplate) {
 
   // Listen for message "new task" from the server
   socket.on('issue', arg => {
-    console.log('SOCKETON--------------------')
-    console.log(arg.action)
-    console.log(arg.id)
-    console.log(arg.state)
-
-    // if (arg.state === 'open') {
-    //   arg.state = true
-    // }
-
     if (arg.action !== 'open') {
       const findIssue = document.getElementById(`issue${arg.id}`)
       console.log(findIssue)

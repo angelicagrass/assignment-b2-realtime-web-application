@@ -22,11 +22,11 @@ export class IssueController {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-  async index(req, res, next) {
+  async index (req, res, next) {
     console.log('INDEX')
 
     try {
-      let gitIssues = await fetch('https://gitlab.lnu.se/api/v4/projects/12695/issues', {
+      let gitIssues = await fetch(`${process.env.GIT_PROJECT}`, {
         method: 'GET',
         contentType: 'application/json',
         headers: {
@@ -57,9 +57,14 @@ export class IssueController {
     }
   }
 
-  async remove(req, res, next) {
-    console.log('REMOVE-----------------------------------------')
-
+  /**
+   * Displays a list of snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async remove (req, res, next) {
     try {
       await fetch(`${process.env.GIT_PROJECT + req.body.value}?state_event=close`, {
         method: 'PUT',
@@ -67,17 +72,20 @@ export class IssueController {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
-      // res.redirect('.')
       res.redirect('/')
     } catch (error) {
       next(error)
     }
   }
 
-
-  async comment(req, res, next) {
-    console.log('COMMENT--------------------')
-
+  /**
+   * Displays a list of snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async comment (req, res, next) {
     try {
       await fetch(`${process.env.GIT_PROJECT + req.body.value}/notes?body=${req.body.text}`, {
         method: 'POST',
@@ -85,7 +93,6 @@ export class IssueController {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
-      // res.redirect('.')
       res.redirect('.')
     } catch (error) {
       next(error)
