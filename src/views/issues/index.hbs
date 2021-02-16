@@ -31,10 +31,12 @@
             <p class="issue-title">{{this.title}}</p>
             <p class="issue-text">{{this.description}}</p>
 
+        {{#if this.state}}
           <form action="./comment" method="post">
-            <textarea rows="2" type="text" class="form-control" name="value" value="{{value}}" placeholder="Comment" required="required" autofocus="autofocus"></textarea>
-            <button type="submit" class="btn btn-lg btn-info">Create</button>
+            {{!-- <textarea rows="2" type="text" class="form-control" name="value" value="{{value}}" placeholder="Comment" required="required" autofocus="autofocus"></textarea> --}}
+            <button type="submit" name="value" value="{{this.iid}}" class="btn btn-lg btn-info">Create</button>
           </form>
+        {{/if}}
 
           </div>
         </div>
@@ -68,6 +70,14 @@
                 <p class="issue-id">Issue id: \{{this.id}}</p>
                 <p class="issue-title">\{{this.title}}</p>
                 <p class="issue-text">\{{this.description}}</p>
+
+              \{{#if this.state}}
+                <form action="./comment" method="post">
+                  {{!-- <textarea rows="2" type="text" class="form-control" name="value" value="{{value}}" placeholder="Comment" required="required" autofocus="autofocus"></textarea> --}}
+                  <button type="submit" name="value" value="\{{this.iid}}" class="btn btn-lg btn-info">Create</button>
+                </form>
+              \{{/if}}
+
             </div>
           </div>
       </div>

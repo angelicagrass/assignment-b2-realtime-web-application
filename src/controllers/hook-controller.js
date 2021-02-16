@@ -29,7 +29,6 @@ export class HookController {
       // iid: req.body.object_attributes.iid
     }
 
-    console.log(req.body.state)
     next()
   }
 
@@ -52,8 +51,6 @@ export class HookController {
       })
 
 
-      console.log(req.body.state)
-
       if (req.headers['x-gitlab-event']) {
         res.status(200).send('Hook accepted')
         return
@@ -71,8 +68,7 @@ export class HookController {
    * @param {Function} next - Express next middleware function.
    */
   authorize (req, res, next) {
-    console.log('authorize')
-    console.log(req.headers)
+
     // Validate the Gitlab Secret Token to be sure that the hook is from the correct sender.
     // This need to be in a database if we have multiple users.
     if (req.headers['x-gitlab-token'] !== process.env.HOOK_SECRET) {
