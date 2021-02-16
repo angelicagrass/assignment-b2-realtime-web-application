@@ -25,7 +25,6 @@ export class HookController {
       state: req.body.object_attributes.state === 'opened',
       action: req.body.object_attributes.action
     }
-
     next()
   }
 
