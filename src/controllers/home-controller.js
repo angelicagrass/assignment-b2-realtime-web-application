@@ -78,20 +78,15 @@ export class IssueController {
   async comment(req, res, next) {
     console.log('COMMENT--------------------')
 
-    console.log(req.body)
-
-    // 'https://gitlab.lnu.se/api/v4/projects/12695/issues/ 15/notes?body=hejhejhej2'
-
     try {
-      await fetch(`${process.env.GIT_PROJECT + req.body.value}/?notes?body=${req.body.text}`, {
+      await fetch(`${process.env.GIT_PROJECT + req.body.value}/notes?body=${req.body.text}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
       // res.redirect('.')
-      console.log(res)
-      res.redirect('/')
+      res.redirect('.')
     } catch (error) {
       next(error)
     }

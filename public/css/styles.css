@@ -20,7 +20,13 @@ body {
   padding: 10px;
   margin: 10px;
   border-radius: 3px;
+  min-height:min-content;
 
+}
+
+.form-control {
+  max-width: 50%;
+  resize: none;
 }
 
 
@@ -40,6 +46,12 @@ body {
 
 .btn {
   float: right;
+}
+
+.comment-btn {
+  margin-top: 10px;
+  height: 30px;
+  border: none;
 }
 
 .led-green {
@@ -98,11 +110,6 @@ p {
   padding: 0px 3px;
   margin: 0px;
   color: lightgrey;
-}
-
-.snippetwords {
-  word-break: break-all;
-  padding: 3px 3px;
 }
 
 body > .container {
