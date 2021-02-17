@@ -1,15 +1,12 @@
 /**
- * Module for the PureSnippetController.
+ * Module for the IssueController.
  *
  * @author Angelica Grass
  * @version 1.0.0
  */
 
 import fetch from 'node-fetch'
-// import express from 'express'
 import moment from 'moment'
-// import { PureSnippet } from '../models/home-model.js'
-// import { UserInfo } from '../models/user-model.js'
 
 /**
  * Encapsulates a controller.
@@ -24,6 +21,8 @@ export class IssueController {
    */
   async index (req, res, next) {
     console.log('INDEX')
+    console.log(req.session)
+    req.session.flash = { type: 'success', text: 'The snippet was saved successfully.' }
 
     try {
       let gitIssues = await fetch(`${process.env.GIT_PROJECT}`, {
@@ -45,11 +44,34 @@ export class IssueController {
             id: issue.id,
             iid: issue.iid,
             updated: moment(issue.updated_at),
-            state: issue.state === 'opened'
+            state: issue.state === 'opened',
+            comment: issue.note
           }))
           .sort((a, b) => b.updated - a.updated)
           .sort((a, b) => b.state - a.state)
       }
+
+      // Push issue.ID into array.
+      const arrayID = []
+      viewData.issues.forEach((issue) => {
+        arrayID.push(issue.iid)
+      })
+
+      // Fetch notes from every issue by ID from viewData
+      Promise.all(arrayID.map(ID =>
+        fetch(`${process.env.GIT_PROJECT}${ID}/notes`, {
+          method: 'GET',
+          contentType: 'application/json',
+          headers: {
+            Authorization: `Bearer ${process.env.BEARER_TOKEN}`
+          }
+        }).then((response) => {
+          return response.json()
+        })
+      )).then((data) => {
+        data.flat()
+        console.log(data)
+      })
 
       res.render('issues/index', { viewData })
     } catch (error) {
@@ -79,7 +101,7 @@ export class IssueController {
   }
 
   /**
-   * Displays a list of snippets.
+   * Post comment to gitlab.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.

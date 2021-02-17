@@ -23,8 +23,6 @@ import { Server } from 'socket.io'
  * The main function of the application. Most of thecode comes from the exercise.
  */
 const main = async () => {
-  // await connectDB()
-
   // Creates an Express application.
   const app = express()
 
@@ -48,12 +46,8 @@ const main = async () => {
     })
   )
 
-  // app.use(express.static('images'))
-
   // Set up a morgan logger using the dev format for log entries.
   app.use(logger('dev'))
-
-
 
   // View engine setup.
   app.engine('hbs', hbs.express4({

@@ -14,6 +14,39 @@ body {
   padding-top: 5px;
 }
 
+.status {
+  float: left;
+}
+
+.status-container {
+  height: 30px;
+}
+
+.led-box-status {
+  height: 30px;
+  width: 15px;
+  margin: 8px 0 0 2px;
+  float: left;
+
+}
+
+.led-green-status {
+  margin: 0 3px;
+  width: 10px;
+  height: 10px;
+  background-color: #ABFF00;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #6c9c0b 0 -1px 9px, #89FF00 0 2px 12px;
+}
+
+.led-red-status {
+  margin: 0 5px;
+  width: 10px;
+  height: 10px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #770505 0 -1px 9px, #ff0000 0 2px 12px;
+}
 
 .issue-box {
   background: #f7f7f7;
@@ -26,6 +59,7 @@ body {
 
 .footer {
   position: absolute;
+  margin-top:20px;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
@@ -125,8 +159,9 @@ p {
 }
 
 body > .container {
-  padding: 60px 15px 0;
+  padding: 60px 15px 10px;
 }
+
 
 .footer > .container {
   padding-right: 15px;
