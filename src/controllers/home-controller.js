@@ -40,7 +40,7 @@ export class IssueController {
             id: issue.id,
             iid: issue.iid,
             updated: moment(issue.updated_at),
-            state: issue.state === 'opened',
+            state: issue.state === 'opened'
             // comment: issue.note
           }))
           .sort((a, b) => b.updated - a.updated)
