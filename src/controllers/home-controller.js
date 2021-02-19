@@ -20,10 +20,6 @@ export class IssueController {
    * @param {Function} next - Express next middleware function.
    */
   async index (req, res, next) {
-    console.log('INDEX')
-    console.log(req.session)
-    req.session.flash = { type: 'success', text: 'The snippet was saved successfully.' }
-
     try {
       let gitIssues = await fetch(`${process.env.GIT_PROJECT}`, {
         method: 'GET',
@@ -45,7 +41,7 @@ export class IssueController {
             iid: issue.iid,
             updated: moment(issue.updated_at),
             state: issue.state === 'opened',
-            comment: issue.note
+            // comment: issue.note
           }))
           .sort((a, b) => b.updated - a.updated)
           .sort((a, b) => b.state - a.state)
@@ -53,12 +49,13 @@ export class IssueController {
 
       // Push issue.ID into array.
       const arrayID = []
+      let arrayNotes = []
       viewData.issues.forEach((issue) => {
         arrayID.push(issue.iid)
       })
 
       // Fetch notes from every issue by ID from viewData
-      Promise.all(arrayID.map(ID =>
+      const viewNote = await Promise.all(arrayID.map(ID =>
         fetch(`${process.env.GIT_PROJECT}${ID}/notes`, {
           method: 'GET',
           contentType: 'application/json',
@@ -69,10 +66,27 @@ export class IssueController {
           return response.json()
         })
       )).then((data) => {
-        data.flat()
-        console.log(data)
+        return data
       })
 
+      const notePromise = await viewNote.flat()
+
+      // Map out the id and comment
+      const dataNote = {
+        notes: notePromise
+          .map(notes => ({
+            note: notes.body,
+            id: notes.noteable_iid
+          }))
+      }
+
+      viewData.issues.forEach((data) => {
+        dataNote.notes.forEach((note) => {
+          if (data.iid === note.id) {
+            data.note = note.note
+          }
+        })
+      })
       res.render('issues/index', { viewData })
     } catch (error) {
       next(error)
