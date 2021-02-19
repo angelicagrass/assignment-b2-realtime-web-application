@@ -59,6 +59,7 @@ body {
 
 .comments {
   background-color: white;
+  max-width: 50%;
 }
 
 .footer {
