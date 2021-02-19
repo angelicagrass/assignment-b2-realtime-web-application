@@ -13,7 +13,7 @@ import moment from 'moment'
  */
 export class IssueController {
   /**
-   * Displays a list of snippets.
+   * Displays a list of issues from Gitlab.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -49,7 +49,7 @@ export class IssueController {
 
       // Push issue.ID into array.
       const arrayID = []
-      let arrayNotes = []
+
       viewData.issues.forEach((issue) => {
         arrayID.push(issue.iid)
       })
@@ -94,7 +94,7 @@ export class IssueController {
   }
 
   /**
-   * Displays a list of snippets.
+   * Close snippet.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.

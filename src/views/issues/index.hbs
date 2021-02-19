@@ -6,61 +6,64 @@
     <p class="status">Status open/close</p>
       <div class="led-box-status">
         <div class="led-green-status">
-        </div>
-      </div>
-        <div class="led-box-status">
+          </div>
+          </div>
+            <div class="led-box-status">
          <div class="led-red-status">
         </div>
       </div>
     </div>
 <div id="issue-list">
 {{#if viewData.issues.length }}
-    {{#each viewData.issues}}
-    
-    {{#if this.state}}
-    <div id="issue{{this.id}}">
-    <div class="containerlamp">
-      <div class="led-box">
-        <div class="led-green"></div>
+  {{#each viewData.issues}}
+  {{#if this.state}}
+      <div id="issue{{this.id}}">
+        <div class="containerlamp">
+          <div class="led-box">
+            <div class="led-green"></div>
   </div>
   {{else}}
-  <div id="issue{{this.id}}">
-      <div class="containerlamp">
-      <div class="led-box">
-        <div class="led-red"></div>
+      <div id="issue{{this.id}}">
+          <div class="containerlamp">
+          <div class="led-box">
+            <div class="led-red"></div>
   </div>
   {{/if}}
       <div class="issue-box">
         <div class="issuecontent">
-          {{#if this.state}}
-            <form action="./remove" method="post">
-              <button name="value" value="{{this.iid}}" type="submit" class="btn btn-outline-dark">close issue</button>
-            </form>
-            {{/if}}
-          <img src={{this.avatar}} />
-            <p class="issue-id">Issue id: {{this.id}}</p>
-            <p class="issue-title">{{this.title}}</p>
-            <p class="issue-text">{{this.description}}</p>
+  {{#if this.state}}
+      <form action="./remove" method="post">
+        <button name="value" value="{{this.iid}}" type="submit" class="btn btn-outline-dark">close issue</button>
+      </form>
+  {{/if}}
+        <img src={{this.avatar}} />
+        <p class="issue-id">Issue id: {{this.id}}</p>
+        <p class="issue-title">{{this.title}}</p>
+        <p class="issue-text">{{this.description}}</p>
 
- 
-            {{!-- <p>här{{this.comment}}</p> --}}
-
-
-        {{#if this.state}}
-        <div class="comment-container">
-          <form action="./comment" method="post">
-            <textarea rows="2" type="text" class="form-control" name="text" text="{{value}}" placeholder="Send a comment to gitlab" required="required" autofocus="autofocus"></textarea>
-            <button type="submit" name="value" value="{{this.iid}}" text="{{value}}" class="comment-btn fas fa-paper-plane"></button>
-          </form>
+  {{#if this.note}}
+          <div class="comments">
+            <h6>Comments</h6>
+            <p class="note">{{this.note}}</p>
           </div>
-        {{/if}}
-          </div>
+  {{/if}}
+
+  {{#if this.state}}
+      <div class="comment-container">
+        <form action="./comment" method="post">
+          <textarea rows="2" type="text" class="form-control" name="text" text="{{value}}" placeholder="Send a comment to gitlab" required="required" autofocus="autofocus"></textarea>
+          <button type="submit" name="value" value="{{this.iid}}" text="{{value}}" class="comment-btn fas fa-paper-plane"></button>
+        </form>
+      </div>
+  {{/if}}
+         </div>
         </div>
        </div>
       </div>
-    {{/each}}
-{{/if}}
-</div>
+  {{/each}}
+  {{/if}}
+  </div>
+
 <template id="git-template"> 
   <div id="issue-list">
     <div id="issue\{{this.id}}">
@@ -75,26 +78,26 @@
                     <div class="led-red"></div>
             </div>
             \{{/if}}
-            <div class="issuecontent">
-              \{{#if this.state}}
+              <div class="issuecontent">
+            \{{#if this.state}}
                 <form action="./remove" method="post">
                   <button name="value" value="\{{this.iid}}" type="submit" class="btn btn-outline-dark">close issue</button>
                 </form>
-              \{{/if}}
-              <img src=\{{this.avatar}} />
+            \{{/if}}
+                <img src=\{{this.avatar}} />
                 <p class="issue-id">Issue id: \{{this.id}}</p>
                 <p class="issue-title">\{{this.title}}</p>
                 <p class="issue-text">\{{this.description}}</p>
 
-             \{{#if this.state}}
-              <div class="comment-container">
-                <form action="./comment" method="post">
-                  <textarea rows="2" type="text" class="form-control" name="text" text="\{{value}}" placeholder="Send a comment to gitlab" required="required" autofocus="autofocus"></textarea>
-                  <button type="submit" name="value" value="\{{this.iid}}" text="\{{value}}" class="comment-btn fas fa-paper-plane"></button>
-                </form>
+            \{{#if this.state}}
+                <div class="comment-container">
+                  <form action="./comment" method="post">
+                    <textarea rows="2" type="text" class="form-control" name="text" text="\{{value}}" placeholder="Send a comment to gitlab" required="required" autofocus="autofocus"></textarea>
+                        <button type="submit" name="value" value="\{{this.iid}}" text="\{{value}}" class="comment-btn fas fa-paper-plane"></button>
+                  </form>
                 </div>
-              \{{/if}}
-            </div>
+            \{{/if}}
           </div>
-      </div>
+        </div>
+    </div>
 </template>

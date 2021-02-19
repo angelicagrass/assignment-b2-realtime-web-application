@@ -69,7 +69,6 @@ export class HookController {
       res.status(403).send('Incorrect Secret')
       return
     }
-
     next()
   }
 }
