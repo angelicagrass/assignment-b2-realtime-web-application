@@ -108,7 +108,7 @@ export class IssueController {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }
       })
-      res.redirect('/')
+      res.redirect('./')
     } catch (error) {
       next(error)
     }
